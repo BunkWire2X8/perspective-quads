@@ -9,19 +9,24 @@ Whether you want a 2D piece of paper to convey depth, set up a scene in a point-
 ## Features
 This addon adds in 4 new Node types and 1 new Resource type:
 - ![PerspectiveQuad2D](readme_images/icons/perspective_quad_2d.png) **PerspectiveQuad2D:** A specialized Node2D that draws a Texture2D through a four-point perspective warp, mapping the undistorted plane onto four arbitrary corner positions.
-![4-pointed Polygon2D VS. PerspectiveQuad2D](readme_images/examples/polygon_vs_perspective.gif)
+
+  ![4-pointed Polygon2D VS. PerspectiveQuad2D](readme_images/examples/polygon_vs_perspective.gif)
 
 - ![PerspectiveQuadShape](readme_images/icons/perspective_quad_shape.png) **PerspectiveQuadShape:** Resource that PerspectiveQuad2Ds can optionally use to blend between many different shapes and modulations.
-![PerspectiveQuad2D blending with PerspectiveQuadShapes](readme_images/examples/blending.gif)
+
+  ![PerspectiveQuad2D blending with PerspectiveQuadShapes](readme_images/examples/blending.gif)
 
 - ![Carousel2D](readme_images/icons/carousel_2d.png) **Carousel2D:** Exposes a single `view_position` and broadcasts it through `view_position_changed` to every subscriber. This can be used to drive the blending of PerspectiveQuad2Ds and CarouselAnchor2Ds to construct a 2D scene with psuedo-3D elements.
-![Carousel2D driving three PerspectiveQuad2Ds and a CarouselAnchor2D](readme_images/examples/carousel.gif)
+
+  ![Carousel2D driving three PerspectiveQuad2Ds and a CarouselAnchor2D](readme_images/examples/carousel.gif)
 
 - ![CarouselAnchor2D](readme_images/icons/carousel_anchor_2d.png) **CarouselAnchor2D:** Positions itself by interpolating keyframe transforms according to a Carousel2D's view position. Keyframes are editable directly in the inspector. This node can be used for transforming elements in a Carousel2D that aren't PerspectiveQuad2Ds.
-![View of a CarouselAnchor2D's properties](readme_images/examples/carousel_anchor.png)
+
+  ![View of a CarouselAnchor2D's properties](readme_images/examples/carousel_anchor.png)
 
 - ![PerspectiveViewportContainer2D](readme_images/icons/perspective_viewport_container_2d.png) **PerspectiveViewportContainer2D:** The PerspectiveQuad2D equivalent of SubViewportContainer. This displays a child SubViewport's texture through a perspective warp, and forwards input through it.
-![Control nodes being interactable through a PerspectiveViewportContainer2D](readme_images/examples/viewport_ui.gif)
+
+  ![Control nodes being interactable through a PerspectiveViewportContainer2D](readme_images/examples/viewport_ui.gif)
 
 ## Limitations:
 - A PerspectiveQuad2D can only display properly when it's a convex shape. Anything concave will result in glitchy rendering. This isn't exactly a "limitation" as much as it's just kinda impossible for a perspective shape to be concave. Still, I thought this would be worth mentioning.
