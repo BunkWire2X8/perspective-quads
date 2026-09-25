@@ -18,11 +18,11 @@ This addon adds in 4 new Node types and 1 new Resource type:
 
 - ![Carousel2D](readme_images/icons/carousel_2d.png) **Carousel2D:** Exposes a single `view_position` and broadcasts it through `view_position_changed` to every subscriber. This can be used to drive the blending of PerspectiveQuad2Ds and CarouselAnchor2Ds to construct a 2D scene with psuedo-3D elements.
 
-  ![Carousel2D driving three PerspectiveQuad2Ds and a CarouselAnchor2D](readme_images/examples/carousel.gif)
+  ![Carousel2D driving three PerspectiveQuad2Ds and a CarouselAnchor2D](readme_images/examples/carousel.webp)
 
 - ![CarouselAnchor2D](readme_images/icons/carousel_anchor_2d.png) **CarouselAnchor2D:** Positions itself by interpolating keyframe transforms according to a Carousel2D's view position. Keyframes are editable directly in the inspector. This node can be used for transforming elements in a Carousel2D that aren't PerspectiveQuad2Ds.
 
-  ![View of a CarouselAnchor2D's properties](readme_images/examples/carousel_anchor.png)
+  ![View of a CarouselAnchor2D's properties](readme_images/examples/carousel_anchor_ui.png)
 
 - ![PerspectiveViewportContainer2D](readme_images/icons/perspective_viewport_container_2d.png) **PerspectiveViewportContainer2D:** The PerspectiveQuad2D equivalent of SubViewportContainer. This displays a child SubViewport's texture through a perspective warp, and forwards input through it.
 
