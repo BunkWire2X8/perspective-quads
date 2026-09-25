@@ -1,0 +1,179 @@
+[gd_scene format=3 uid="uid://1rtsing55j35"]
+
+[ext_resource type="Script" uid="uid://2s63bxsw3ned" path="res://addons/perspective_quads/scripts/nodes/carousel_2d.gd" id="1_lno2f"]
+[ext_resource type="Script" uid="uid://cdlt6oqlfgxd5" path="res://addons/perspective_quads/scripts/nodes/perspective_quad_2d.gd" id="2_jkkf4"]
+[ext_resource type="Texture2D" uid="uid://ddeod1kqj7cpx" path="res://addons/perspective_quads/examples/assets/kenney_assets_brick.svg" id="3_xapwl"]
+[ext_resource type="Script" uid="uid://djcouwykehlq1" path="res://addons/perspective_quads/scripts/resources/perspective_quad_shape.gd" id="4_rlc4l"]
+[ext_resource type="Script" uid="uid://06qu4xho2bed" path="res://addons/perspective_quads/scripts/nodes/carousel_anchor_2d.gd" id="5_chnww"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sa0gk"]
+atlas = ExtResource("3_xapwl")
+region = Rect2(0, 0, 64, 128)
+
+[sub_resource type="Resource" id="Resource_4jiau"]
+script = ExtResource("4_rlc4l")
+_modulate = Color(0.9, 0.9, 0.9, 1)
+_corners = PackedVector2Array(0, -1.3, 2, -1.35, 2, 0.5, 0, 0.45)
+_perspective_matrix = Basis(1.8918918, 0, 0, 0.022972962, 1.75, -1.3, -0.0540541, 0, 1)
+_perspective_matrix_inv = Basis(0.5285714, 0, 0, 0.014285735, 0.57142854, 0.7428571, 0.028571451, 0, 1)
+_frame_size = Vector2(2, 2.35)
+_frame_offset = Vector2(0, -1.35)
+_dirty = false
+
+[sub_resource type="Resource" id="Resource_kgeuw"]
+script = ExtResource("4_rlc4l")
+_modulate = Color(0.7, 0.7, 0.7, 1)
+_corners = PackedVector2Array(2.01, -1.35, 2, -1.35, 2, 0.5, 2.01, 0.5)
+_perspective_matrix = Basis(-0.00999999, 0, 2.01, 0, 1.85, -1.35, 0, 0, 1)
+_perspective_matrix_inv = Basis(-100.00009, 0, 201.0002, 0, 0.5405405, 0.7297297, 0, 0, 1)
+_frame_size = Vector2(2.01, 2.35)
+_frame_offset = Vector2(0, -1.35)
+_dirty = false
+
+[sub_resource type="Resource" id="Resource_50v5a"]
+script = ExtResource("4_rlc4l")
+_modulate = Color(0.9, 0.9, 0.9, 1)
+_corners = PackedVector2Array(4.01, -1, 4, -1, 4, 0.15, 4.01, 0.15)
+_perspective_matrix = Basis(-0.010000229, 0, 4.01, 0, 1.15, -1, 0, 0, 1)
+_perspective_matrix_inv = Basis(-99.99771, 0, 400.99088, 0, 0.86956525, 0.86956525, 0, 0, 1)
+_frame_size = Vector2(4.01, 2)
+_frame_offset = Vector2(0, -1)
+_dirty = false
+
+[sub_resource type="Resource" id="Resource_4cq7t"]
+script = ExtResource("4_rlc4l")
+_modulate = Color(0.9, 0.9, 0.9, 1)
+_corners = PackedVector2Array(-3, -1, -3.01, -1, -3.01, 0.2, -3, 0.2)
+_perspective_matrix = Basis(-0.00999999, 0, -3, 0, 1.2, -1, 0, 0, 1)
+_perspective_matrix_inv = Basis(-100.0001, 0, -300.0003, 0, 0.8333333, 0.8333333, 0, 0, 1)
+_frame_size = Vector2(4.01, 2)
+_frame_offset = Vector2(-3.01, -1)
+_dirty = false
+
+[sub_resource type="Resource" id="Resource_itkc2"]
+script = ExtResource("4_rlc4l")
+_modulate = Color(0.7, 0.7, 0.7, 1)
+_corners = PackedVector2Array(-1, -1.35, -1.01, -1.35, -1.01, 0.5, -1, 0.5)
+_perspective_matrix = Basis(-0.00999999, 0, -1, 0, 1.85, -1.35, 0, 0, 1)
+_perspective_matrix_inv = Basis(-100.00009, 0, -100.00009, 0, 0.5405405, 0.7297297, 0, 0, 1)
+_frame_size = Vector2(2.01, 2.35)
+_frame_offset = Vector2(-1.01, -1.35)
+_dirty = false
+
+[sub_resource type="Resource" id="Resource_mhqfg"]
+script = ExtResource("4_rlc4l")
+_modulate = Color(0.9, 0.9, 0.9, 1)
+_corners = PackedVector2Array(-1, -1.35, 1, -1.3, 1, 0.45, -1, 0.5)
+_perspective_matrix = Basis(2.057143, 0, -1, -0.024285704, 1.85, -1.35, 0.057142906, 0, 1)
+_perspective_matrix_inv = Basis(0.47297293, 0, 0.47297293, -0.013513532, 0.5405405, 0.7162162, -0.027027048, 0, 0.9729729)
+_frame_size = Vector2(2, 2.35)
+_frame_offset = Vector2(-1, -1.35)
+_dirty = false
+
+[sub_resource type="Resource" id="Resource_ad5ki"]
+script = ExtResource("4_rlc4l")
+_modulate = Color(0.8, 0.8, 0.8, 1)
+_corners = PackedVector2Array(-1, -1.35, 1, -1.072, 1, 0.222, -1, 0.5)
+_perspective_matrix = Basis(2.4296753, 0, -1, -0.18261206, 1.85, -1.35, 0.4296754, 0, 1)
+_perspective_matrix_inv = Basis(0.34972975, 0, 0.34972975, -0.075135134, 0.5405405, 0.6545946, -0.15027027, 0, 0.8497297)
+_frame_size = Vector2(2, 2.35)
+_frame_offset = Vector2(-1, -1.35)
+_dirty = false
+
+[sub_resource type="Resource" id="Resource_cf0m1"]
+script = ExtResource("4_rlc4l")
+_corners = PackedVector2Array(-1, -1.35, 2, -1.35, 2, 0.5, -1, 0.5)
+_perspective_matrix = Basis(3, 0, -1, 0, 1.85, -1.35, 0, 0, 1)
+_perspective_matrix_inv = Basis(0.33333334, 0, 0.33333334, 0, 0.5405405, 0.7297298, 0, 0, 1)
+_frame_size = Vector2(3, 2.35)
+_frame_offset = Vector2(-1, -1.35)
+_dirty = false
+
+[sub_resource type="Resource" id="Resource_sa0gk"]
+script = ExtResource("4_rlc4l")
+_modulate = Color(0.8, 0.8, 0.8, 1)
+_corners = PackedVector2Array(0, -1.072, 2, -1.35, 2, 0.5, 0, 0.222)
+_perspective_matrix = Basis(1.398919, 0, 0, 0.12772973, 1.294, -1.072, -0.30054054, 0, 1)
+_perspective_matrix_inv = Basis(0.7148377, 0, 0, 0.10741886, 0.7727975, 0.82843894, 0.21483772, 0, 1)
+_frame_size = Vector2(2, 2.35)
+_frame_offset = Vector2(0, -1.35)
+_dirty = false
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_n37mo"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_4jiau"]
+offsets = PackedFloat32Array(0, 0.7180617)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kgeuw"]
+gradient = SubResource("Gradient_4jiau")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="PerspectiveCarouselTest" type="Node2D" unique_id=434388264]
+
+[node name="Carousel2D" type="Node2D" parent="." unique_id=1365770522]
+position = Vector2(576, 41)
+scale = Vector2(1.7932992, 1.7932992)
+script = ExtResource("1_lno2f")
+metadata/_custom_type_script = "uid://2s63bxsw3ned"
+
+[node name="PlatformWallLeft" type="Node2D" parent="Carousel2D" unique_id=304061413]
+modulate = Color(0.44387513, 0.15749998, 0.75, 1)
+position = Vector2(-384, 340)
+script = ExtResource("2_jkkf4")
+texture = SubResource("AtlasTexture_sa0gk")
+offset = Vector2(96, 0)
+use_shape_resources = true
+grid_size = Vector2i(3, 1)
+shapes = Array[ExtResource("4_rlc4l")]([SubResource("Resource_4jiau"), SubResource("Resource_kgeuw"), SubResource("Resource_50v5a")])
+active_shape = Vector2i(1, 0)
+use_blend_shapes = true
+blend_position = Vector2(0.5, 0)
+use_carousel = true
+metadata/_custom_type_script = "uid://cdlt6oqlfgxd5"
+
+[node name="PlatformWallRight" type="Node2D" parent="Carousel2D" unique_id=2055309703]
+modulate = Color(0.44387513, 0.15749998, 0.75, 1)
+position = Vector2(384, 340)
+script = ExtResource("2_jkkf4")
+texture = SubResource("AtlasTexture_sa0gk")
+offset = Vector2(-96, 0)
+use_shape_resources = true
+grid_size = Vector2i(3, 1)
+shapes = Array[ExtResource("4_rlc4l")]([SubResource("Resource_4cq7t"), SubResource("Resource_itkc2"), SubResource("Resource_mhqfg")])
+use_blend_shapes = true
+blend_position = Vector2(0.5, 0)
+use_carousel = true
+metadata/_custom_type_script = "uid://cdlt6oqlfgxd5"
+
+[node name="PlatformCenter" type="Node2D" parent="Carousel2D" unique_id=1122483706]
+modulate = Color(0.44387513, 0.15749998, 0.75, 1)
+position = Vector2(0, 340)
+script = ExtResource("2_jkkf4")
+texture = ExtResource("3_xapwl")
+plane_size_override = Vector2(128, 128)
+use_shape_resources = true
+grid_size = Vector2i(3, 1)
+shapes = Array[ExtResource("4_rlc4l")]([SubResource("Resource_ad5ki"), SubResource("Resource_cf0m1"), SubResource("Resource_sa0gk")])
+use_blend_shapes = true
+blend_position = Vector2(0.5, 0)
+use_carousel = true
+metadata/_custom_type_script = "uid://cdlt6oqlfgxd5"
+
+[node name="CarouselAnchor2D" type="Node2D" parent="Carousel2D" unique_id=1074084117]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(0, 41)
+script = ExtResource("5_chnww")
+_positions = PackedVector2Array(-64, 41, 0, 41, 64, 41)
+_rotations = PackedFloat32Array(-0.2617994, 0, 0.2617994)
+_skews = PackedFloat32Array(0, 0, 0)
+_scales = PackedVector2Array(0.75, 0.75, 1, 1, 0.75, 0.75)
+_modulates = PackedColorArray(0.88, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1)
+keyframe_count = 3
+metadata/_custom_type_script = "uid://06qu4xho2bed"
+
+[node name="Sprite2D" type="Sprite2D" parent="Carousel2D/CarouselAnchor2D" unique_id=1457523685]
+material = SubResource("CanvasItemMaterial_n37mo")
+texture = SubResource("GradientTexture2D_kgeuw")

@@ -1,0 +1,8 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+# Project specific ignores
+.editorconfig
+icon.svg
+icon.svg.import
+project.godot
