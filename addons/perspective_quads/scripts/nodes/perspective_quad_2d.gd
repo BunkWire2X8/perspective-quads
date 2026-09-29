@@ -345,7 +345,10 @@ func _validate_property(property: Dictionary) -> void:
 	var prop_name: StringName = property.name
 	
 	match prop_name:
-		&"material", &"use_parent_material":
+		&"material":
+			# Prevents accidental sharing of auto-generated materials.
+			property.usage = (property.usage & ~PROPERTY_USAGE_STORAGE) | PROPERTY_USAGE_READ_ONLY
+		&"use_parent_material":
 			property.usage |= PROPERTY_USAGE_READ_ONLY
 		&"use_blend_shapes", &"blend_position", &"active_shape":
 			if not use_shape_resources:
@@ -367,7 +370,11 @@ var _blend_key := Vector3.INF
 var _simple_shape: PerspectiveQuadShape
 var _simple_shape_dirty := true
 
-var _visual: _Visual
+var _draw_texture: Texture2D
+var _draw_plane_size := Vector2.ZERO
+var _draw_modulate := Color.WHITE
+var _draw_when_empty := false
+var _draw_valid := false
 
 var _generated_material: ShaderMaterial
 
@@ -385,54 +392,35 @@ var _last_custom_rect_valid := false
 
 #endregion
 
-#region Internal visual node
+#region Drawing
 
-## Private child that owns the live [ShaderMaterial] and performs the
-## actual textured draw call on this node's behalf.
-class _Visual extends Node2D:
-	var draw_texture: Texture2D
-	var draw_when_empty: bool = false
-	var _rect: Rect2
-	
-	func set_draw_data(texture: Texture2D, rect: Rect2,
-					   mod: Color, force_draw: bool = false) -> void:
-		draw_texture = texture
-		_rect = rect
-		draw_when_empty = force_draw
-		modulate = mod
-		queue_redraw()
-	
-	func _draw() -> void:
-		if draw_texture:
-			draw_texture_rect(draw_texture, _rect, false)
-		elif draw_when_empty:
-			draw_rect(_rect, Color.WHITE)
+func _draw() -> void:
+	if not _draw_valid: return
+	var rect := Rect2(Vector2.ZERO, _draw_plane_size)
+	if _draw_texture:
+		draw_texture_rect(_draw_texture, rect, false, _draw_modulate)
+	elif _draw_when_empty:
+		draw_rect(rect, _draw_modulate)
 
 #endregion
 
-#region Self-modulate propagation
+#region Self-modulate (Deprecated)
 
-## Sets [member self_modulate] and immediately mirrors it onto the internal
-## [PerspectiveQuad2D._Visual] node, which is what's actually drawn on screen.
-## Prefer this over assigning [member self_modulate] directly from code.
+## @deprecated
+## Sets [member self_modulate] and updates the drawing to match.
+## [br][br]
+## This used to exist because the visible draw call happened on an internal
+## child node that didn't inherit the node's own [member self_modulate].
+## Drawing now happens on the node itself, so this is a plain assignment kept
+## for compatibility.
 func set_self_modulate_and_update(value: Color) -> void:
 	self_modulate = value
-	if _visual: _visual.self_modulate = value
-
-func _set(property: StringName, value: Variant) -> bool:
-	if property == &"self_modulate" and _visual:
-		_visual.self_modulate = value
-	return false
 
 #endregion
 
 #region Lifecycle
 
 func _ready() -> void:
-	if not _visual:
-		_visual = _Visual.new()
-		add_child(_visual, false, Node.INTERNAL_MODE_FRONT)
-		_visual.self_modulate = self_modulate
 	_update_material()
 	if use_shape_resources:
 		_ensure_shapes()
@@ -839,38 +827,39 @@ func _flush_update() -> void:
 	_update()
 
 func _update() -> void:
-	if not _visual: return
 	var plane_size := get_plane_size()
 	var shape := get_display_shape()
+	var mat := material as ShaderMaterial
 	
-	if not PerspectiveQuadMath.is_matrix_valid(shape.perspective_matrix_inv):
-		_visual.visible = false
+	if mat == null or not PerspectiveQuadMath.is_matrix_valid(shape.perspective_matrix_inv):
+		_draw_valid = false
+		queue_redraw()
 		return
-	_visual.visible = true
 	
-	var mat := _visual.material as ShaderMaterial
-	if mat:
-		mat.set_shader_parameter(&"matrix_inv",    shape.perspective_matrix_inv)
-		mat.set_shader_parameter(&"frame_size",    shape.frame_size)
-		mat.set_shader_parameter(&"frame_offset",  shape.frame_offset)
-		mat.set_shader_parameter(&"plane_size",    plane_size)
-		mat.set_shader_parameter(&"origin_offset", get_origin_offset(plane_size))
-		mat.set_shader_parameter(&"flip_vector",   Vector2(float(flip_h), float(flip_v)))
-		mat.set_shader_parameter(&"antialiased",   antialiased)
-		if _atlas_uniforms_dirty or mat != _atlas_uniforms_material:
-			_update_atlas_uniforms(mat)
-			_atlas_uniforms_dirty = false
-			_atlas_uniforms_material = mat
+	mat.set_shader_parameter(&"matrix_inv",    shape.perspective_matrix_inv)
+	mat.set_shader_parameter(&"frame_size",    shape.frame_size)
+	mat.set_shader_parameter(&"frame_offset",  shape.frame_offset)
+	mat.set_shader_parameter(&"plane_size",    plane_size)
+	mat.set_shader_parameter(&"origin_offset", get_origin_offset(plane_size))
+	mat.set_shader_parameter(&"flip_vector",   Vector2(float(flip_h), float(flip_v)))
+	mat.set_shader_parameter(&"antialiased",   antialiased)
+	if _atlas_uniforms_dirty or mat != _atlas_uniforms_material:
+		_update_atlas_uniforms(mat)
+		_atlas_uniforms_dirty = false
+		_atlas_uniforms_material = mat
 	
 	var atlas_tex := texture as AtlasTexture
-	var draw_texture: Texture2D = atlas_tex.atlas if (atlas_tex and atlas_tex.atlas) else texture
-	_visual.set_draw_data(draw_texture, Rect2(Vector2.ZERO, plane_size),
-						  shape.modulate, material_override != null)
+	_draw_texture = atlas_tex.atlas if (atlas_tex and atlas_tex.atlas) else texture
+	_draw_plane_size = plane_size
+	_draw_modulate = shape.modulate
+	_draw_when_empty = material_override != null
+	_draw_valid = true
+	queue_redraw()
 	
 	if is_inside_tree():
 		var rect := _local_rect(plane_size, shape)
 		if not (_last_custom_rect_valid and rect == _last_custom_rect):
-			RenderingServer.canvas_item_set_custom_rect(_visual.get_canvas_item(), true, rect)
+			RenderingServer.canvas_item_set_custom_rect(get_canvas_item(), true, rect)
 			_last_custom_rect = rect
 			_last_custom_rect_valid = true
 
@@ -912,18 +901,19 @@ func _update_atlas_uniforms(mat: ShaderMaterial) -> void:
 ## The material currently in use. Returns [member material_override] if set.
 ## Otherwise, returns the internal material the node generated for itself.
 func get_active_material() -> ShaderMaterial:
-	if _visual: return _visual.material
 	if material_override != null: return material_override
-	return null
+	return material as ShaderMaterial
 
 func _update_material() -> void:
-	if not _visual: return
-	_visual.material = material_override if material_override else _get_generated_material()
+	var mat := _resolve_material()
+	if material != mat:
+		material = mat
 	_atlas_uniforms_dirty = true
 	_request_update()
 
-func _get_generated_material() -> ShaderMaterial:
-	if not _generated_material:
+func _resolve_material() -> ShaderMaterial:
+	if material_override: return material_override
+	if _generated_material == null or not is_same(_generated_material, material):
 		_generated_material = ShaderMaterial.new()
 		_generated_material.resource_local_to_scene = true
 		_generated_material.shader = PERSPECTIVE_SHADER
